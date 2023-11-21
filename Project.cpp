@@ -47,7 +47,8 @@ void Initialize(void)
 
 void GetInput(void)
 {
-
+    if(MacUILib_hasChar())
+        ptrGameMechs->setInput(MacUILib_getChar());
 }
 
 void RunLogic(void)
@@ -55,12 +56,24 @@ void RunLogic(void)
     if(ptrGameMechs->getInput()==' '){
         ptrGameMechs->setExitTrue();
     }
+    if(ptrGameMechs->getInput()=='='){
+        ptrGameMechs->incrementScore();
+    }
+    if(ptrGameMechs->getInput()=='n'){
+        ptrGameMechs->setloseFlag();
+    }
+    ptrGameMechs->clearInput();
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();    
-    MacUILib_printf(" %d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY());
+    MacUILib_printf(" %d, %d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY(), ptrGameMechs->getScore());
+    if(ptrGameMechs->getloseFlagStatus())
+    {
+        MacUILib_printf("\n you lose LLLL");
+        MacUILib_Delay(5*DELAY_CONST);
+    }
 }
 
 void LoopDelay(void)
