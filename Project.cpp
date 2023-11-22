@@ -16,8 +16,9 @@ void LoopDelay(void);
 void CleanUp(void);
 
 GameMechs *ptrGameMechs;
-
-
+Player *ptrPlayer;
+objPos playerPos;
+objPos foodpos;
 int main(void)
 {
 
@@ -44,10 +45,15 @@ void Initialize(void)
 
 
     ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13
+    ptrPlayer = new Player(ptrGameMechs);
+    ptrPlayer->getPlayerPos(playerPos);
+    ptrGameMechs->setNumFood(5);
+    ptrGameMechs->generateFood(playerPos);
 }
 
 void GetInput(void)
-{
+{   
+    ptrGameMechs->clearInput();
     if(MacUILib_hasChar())
         ptrGameMechs->setInput(MacUILib_getChar());
 }
@@ -57,24 +63,65 @@ void RunLogic(void)
     if(ptrGameMechs->getInput()==' '){
         ptrGameMechs->setExitTrue();
     }
-    if(ptrGameMechs->getInput()=='='){
-        ptrGameMechs->incrementScore();
+    // if(ptrGameMechs->getInput()=='='){
+    //     ptrGameMechs->incrementScore();
+    // }
+    if(ptrGameMechs->getInput()=='n')
+    {
+        ptrGameMechs->generateFood(playerPos);
     }
-    if(ptrGameMechs->getInput()=='n'){
-        ptrGameMechs->setloseFlag();
-    }
-    ptrGameMechs->clearInput();
+    // ptrGameMechs->clearInput();
 }
 
 void DrawScreen(void)
 {
+    ptrPlayer->getPlayerPos(playerPos);
+
     MacUILib_clearScreen();    
-    MacUILib_printf(" %d, %d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY(), ptrGameMechs->getScore());
+    int hasprinted=1;
+    for (int y=0;y<ptrGameMechs->getBoardSizeY();y++){
+        hasprinted=0;
+        MacUILib_printf("\n");
+        for(int x=0;x<ptrGameMechs->getBoardSizeX();x++){
+            hasprinted=0;
+            if (y==0 || y==ptrGameMechs->getBoardSizeY()-1){
+                MacUILib_printf("#");
+            }
+            if (y>0 && y<=ptrGameMechs->getBoardSizeY()-2){
+                if (x==0 || x==ptrGameMechs->getBoardSizeX()-1){
+                    MacUILib_printf("#");
+                    hasprinted=1;
+                }
+                else if (x==playerPos.x && y==playerPos.y){
+                    MacUILib_printf("$");
+                    hasprinted=1;
+                }
+                for(int z=0;z<ptrGameMechs->getNumFood();z++){
+                    ptrGameMechs->getFoodPos(foodpos,z);
+                    if(x==foodpos.x && y==foodpos.y){
+                        MacUILib_printf("%c",foodpos.symbol);
+                        hasprinted = 1;
+                    }
+                }
+                if(!hasprinted){
+                    MacUILib_printf(" ");
+                }
+            }
+        }
+   }
+   
+   
+   
     if(ptrGameMechs->getloseFlagStatus())
     {
         MacUILib_printf("\n you lose LLLL");
         MacUILib_Delay(5*DELAY_CONST);
     }
+    // for(int z=0;z<ptrGameMechs->getNumFood();z++){
+    // ptrGameMechs->getFoodPos(foodpos,z);
+    // MacUILib_printf("\n%d,%d, %d",foodpos.x,foodpos.y,playerPos.isPosEqual(&foodpos));
+    // }
+    // MacUILib_printf("\n%d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY());
 }
 
 void LoopDelay(void)
@@ -87,7 +134,6 @@ void CleanUp(void)
 {
     delete ptrGameMechs;
     MacUILib_clearScreen();    
-  
     MacUILib_uninit();
 }
 
