@@ -41,6 +41,7 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
+
     exitFlag = false;
 }
 
@@ -72,3 +73,8 @@ void CleanUp(void)
   
     MacUILib_uninit();
 }
+
+
+
+
+
