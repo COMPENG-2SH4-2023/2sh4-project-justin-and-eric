@@ -10,10 +10,17 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     objPos currObj;
+
     currObj.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'*');
-    playerPos.insertHead(currObj);
-    currObj.setObjPos(mainGameMechsRef->getBoardSizeX()/2-1,mainGameMechsRef->getBoardSizeY()/2,'*');
-    playerPos.insertTail(currObj);
+
+
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(currObj);
+    playerPosList->insertHead(currObj);
+    playerPosList->insertHead(currObj);
+    playerPosList->insertHead(currObj);
+    playerPosList->insertHead(currObj);
+
 
 }
 
@@ -22,14 +29,14 @@ Player::~Player()
 {
     // delete any heap members here
     //leave empty for now
+    delete playerPosList;
+    
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
-    objPos currObj;
-    playerPos.getHeadElement(currObj);
-    returnPos.setObjPos(currObj.x, currObj.y, currObj.symbol);
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -84,25 +91,29 @@ void Player::movePlayer()
     int bSizeX = mainGameMechsRef->getBoardSizeX()-1;
     int bSizeY = mainGameMechsRef->getBoardSizeY()-1;
     
-    objPos currObj;
-    playerPos.getHeadElement(currObj);
+    objPos currHead;
+    
+    playerPosList->getHeadElement(currHead);
+
+
+
     // PPA3 Finite State Machine logic
     switch (myDir)
     {    
     case UP:
-        currObj.y--;
+        currHead.y--;
         break;
 
     case DOWN:
-        currObj.y ++;
+        currHead.y ++;
         break;
 
     case LEFT:
-        currObj.x --;
+        currHead.x --;
         break;
 
     case RIGHT:
-        currObj.x ++;
+        currHead.x ++;
         break;
 
     case STOP:
@@ -114,28 +125,28 @@ void Player::movePlayer()
 
     
 
-    if (currObj.x == bSizeX)
+    if (currHead.x == bSizeX)
     {
-        currObj.x = 1;
+        currHead.x = 1;
     }
 
-    if (currObj.x == 0)
+    if (currHead.x == 0)
     {
-        currObj.x = bSizeX - 1;
+        currHead.x = bSizeX - 1;
     }
     
-    if (currObj.y == 0)
+    if (currHead.y == 0)
     {
-        currObj.y = bSizeY - 1;
+        currHead.y = bSizeY - 1;
     }
 
-    if (currObj.y == bSizeY)
+    if (currHead.y == bSizeY)
     {
-        currObj.y = 1;
+        currHead.y = 1;
     }
 
-    playerPos.insertHead(currObj);
-    playerPos.removeTail();
+    playerPosList->insertHead(currHead);
+    playerPosList->removeTail();
 
 
 }

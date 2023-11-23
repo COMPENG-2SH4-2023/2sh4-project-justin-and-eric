@@ -41,11 +41,13 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    objPos playerPos;
+    objPos tempPos;
+    
     ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13
     ptrPlayer = new Player(ptrGameMechs);
+
     ptrGameMechs->setNumFood(5);
-    ptrGameMechs->generateFood(playerPos);
+    ptrGameMechs->generateFood(tempPos);
 
 }
 
@@ -75,32 +77,54 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {   
-    objPos playerPos;
-    objPos foodpos;
-    ptrPlayer->getPlayerPos(playerPos);
+    MacUILib_clearScreen();  
 
-    MacUILib_clearScreen();    
+
+
     int hasprinted=1;
-    for (int y=0;y<ptrGameMechs->getBoardSizeY();y++){
+
+
+    objPosArrayList* playerBody = ptrPlayer->getPlayerPos();
+    objPos tempBody;
+
+    objPos foodpos;
+ 
+
+
+
+    for (int i=0;i<ptrGameMechs->getBoardSizeY();i++){
         hasprinted=0;
         MacUILib_printf("\n");
-        for(int x=0;x<ptrGameMechs->getBoardSizeX();x++){
+        for(int j=0;j<ptrGameMechs->getBoardSizeX();j++){
             hasprinted=0;
-            if (y==0 || y==ptrGameMechs->getBoardSizeY()-1){
+
+            for(int q = 0; q < playerBody->getSize(); q++)
+            {
+                playerBody->getElement(tempBody, q);
+                if(tempBody.x == j && tempBody.y == i )
+                {
+                    MacUILib_printf("%c", tempBody.symbol);
+                    hasprinted = 1; 
+                    break;
+                }
+            }
+
+            if(hasprinted) continue;
+
+
+            
+            if (i==0 || i==ptrGameMechs->getBoardSizeY()-1){
                 MacUILib_printf("#");
             }
-            if (y>0 && y<=ptrGameMechs->getBoardSizeY()-2){
-                if (x==0 || x==ptrGameMechs->getBoardSizeX()-1){
+            if (i>0 && i<=ptrGameMechs->getBoardSizeY()-2){
+                if (j==0 || j==ptrGameMechs->getBoardSizeX()-1){
                     MacUILib_printf("#");
                     hasprinted=1;
                 }
-                else if (x==playerPos.x && y==playerPos.y){
-                    MacUILib_printf("%c",playerPos.symbol);
-                    hasprinted=1;
-                }
+
                 for(int z=0;z<ptrGameMechs->getNumFood();z++){
                     ptrGameMechs->getFoodPos(foodpos,z);
-                    if(x==foodpos.x && y==foodpos.y){
+                    if(j==foodpos.x && i==foodpos.y){
                         MacUILib_printf("%c",foodpos.symbol);
                         hasprinted = 1;
                     }
@@ -111,7 +135,7 @@ void DrawScreen(void)
             }
         }
    }
-   MacUILib_printf("\n%d, %d",playerPos.x,playerPos.y);
+
    
    
     if(ptrGameMechs->getloseFlagStatus())

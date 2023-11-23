@@ -49,7 +49,7 @@ class GameMechs
         int getBoardSizeY();
         int getScore();
         
-        void generateFood(objPos Blockoff);
+        void generateFood(objPos Blockoff); //Need to upgrade this
         void getFoodPos(objPos &returnPos, int index);
         int getNumFood();
         void setNumFood(int num);
