@@ -145,22 +145,9 @@ void Player::movePlayer()
 
 
 
-    for(int i=0;i< playerPosList->getSize();i++){
-    {
-        objPos tempPos;
-        playerPosList->getElement(tempPos, i);
-        
-        if(currHead.x == tempPos.x && currHead.y == tempPos.y)
-            selfCollision= true;
-        
-    }
-    if(selfCollision){
-        mainGameMechsRef->getloseFlagStatus();
-    }
 
 
-
-    for(int i=0;i< mainGameMechsRef->getNumFood();i++)
+        for(int i=0;i< mainGameMechsRef->getNumFood();i++)
     {
     
         objPos currFood;
@@ -176,11 +163,26 @@ void Player::movePlayer()
     else{
         mainGameMechsRef->generateFood(currHead);
     }
+    
+
+
+    for(int i=0;i< playerPosList->getSize();i++)
+    
+    {
+    {
+        objPos tempPos;
+        playerPosList->getElement(tempPos, i);
+        
+        if(currHead.x == tempPos.x && currHead.y == tempPos.y)
+            selfCollision= true;
+        
+    }
+        
+    if(selfCollision){
+        mainGameMechsRef->getloseFlagStatus();
+    }
 }
 }
-
-
-
 
 
 
