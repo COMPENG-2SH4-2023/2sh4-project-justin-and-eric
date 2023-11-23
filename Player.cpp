@@ -38,30 +38,30 @@ void Player::updatePlayerDir()
         if(myDir != UP && myDir != DOWN)
         {
         myDir = UP;
-        break;
         }
+        break;
 
         case 'a':
         if(myDir != RIGHT && myDir != LEFT)
         {
         myDir = LEFT;
-        break;
         }
- 
+        break;
+
+
         case 's':
         if(myDir != UP&& myDir != DOWN)
         {
         myDir = DOWN;
-        break;
         }
-
+        break;
 
         case 'd':
         if(myDir != LEFT && myDir != RIGHT)
         {
         myDir = RIGHT;
-        break;
         }
+        break;
 
         default:
         break;
