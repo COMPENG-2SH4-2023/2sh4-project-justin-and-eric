@@ -91,7 +91,6 @@ void Player::movePlayer()
     objPos currHead;
     
     bool selfCollision = false;
-    objPos currHead;
     
     playerPosList->getHeadElement(currHead);
 
@@ -165,10 +164,14 @@ void Player::movePlayer()
     else{
         mainGameMechsRef->generateFood(playerPosList);
     }
+    for(int i=1;i<playerPosList->getSize();i++){
+        objPos BodyObj;
+        playerPosList->getElement(BodyObj, i);
+        if(currHead.x == BodyObj.x && currHead.y == BodyObj.y)    
+            mainGameMechsRef->setloseFlag();
+
     }
-
-
-
-
 }
+
+
 

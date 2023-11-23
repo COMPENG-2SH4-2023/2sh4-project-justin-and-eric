@@ -139,14 +139,15 @@ void DrawScreen(void)
    
     if(ptrGameMechs->getloseFlagStatus())
     {
+        MacUILib_clearScreen();
         MacUILib_printf("\n you lose LLLL");
         MacUILib_Delay(5*DELAY_CONST);
     }
-    MacUILib_printf("\nwtf,%d",ptrGameMechs->getNumFood());
-    for(int z=0;z<ptrGameMechs->getNumFood();z++){
-    ptrGameMechs->getFoodPos(foodpos,z);
-    MacUILib_printf("\nwtf%d,%d, ",foodpos.x,foodpos.y);
-    }
+    // MacUILib_printf("\nwtf,%d",ptrGameMechs->getNumFood());
+    // for(int z=0;z<ptrGameMechs->getNumFood();z++){
+    // ptrGameMechs->getFoodPos(foodpos,z);
+    // MacUILib_printf("\nwtf%d,%d, ",foodpos.x,foodpos.y);
+    // }
     // MacUILib_printf("\n%d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY());
 }
 
