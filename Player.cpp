@@ -84,6 +84,7 @@ void Player::movePlayer()
     int bSizeY = mainGameMechsRef->getBoardSizeY();
     
     objPos currObj;
+    getPlayerPos(currObj);
     // PPA3 Finite State Machine logic
     switch (myDir)
     {    
