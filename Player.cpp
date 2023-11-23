@@ -81,8 +81,8 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     
-    int bSizeX = mainGameMechsRef->getBoardSizeX();
-    int bSizeY = mainGameMechsRef->getBoardSizeY();
+    int bSizeX = mainGameMechsRef->getBoardSizeX()-1;
+    int bSizeY = mainGameMechsRef->getBoardSizeY()-1;
     
     objPos currObj;
     playerPos.getHeadElement(currObj);

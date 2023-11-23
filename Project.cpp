@@ -94,7 +94,7 @@ void DrawScreen(void)
                     MacUILib_printf("#");
                     hasprinted=1;
                 }
-                else if (x>0 && x<ptrGameMechs->getBoardSizeX() && x==playerPos.x && y==playerPos.y){
+                else if (x==playerPos.x && y==playerPos.y){
                     MacUILib_printf("%c",playerPos.symbol);
                     hasprinted=1;
                 }
@@ -111,7 +111,7 @@ void DrawScreen(void)
             }
         }
    }
-   
+   MacUILib_printf("\n%d, %d",playerPos.x,playerPos.y);
    
    
     if(ptrGameMechs->getloseFlagStatus())
