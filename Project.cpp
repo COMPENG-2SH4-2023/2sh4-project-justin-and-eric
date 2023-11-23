@@ -46,6 +46,7 @@ void Initialize(void)
     ptrPlayer = new Player(ptrGameMechs);
     ptrGameMechs->setNumFood(5);
     ptrGameMechs->generateFood(playerPos);
+
 }
 
 void GetInput(void)
@@ -93,7 +94,7 @@ void DrawScreen(void)
                     MacUILib_printf("#");
                     hasprinted=1;
                 }
-                else if (x==playerPos.x && y==playerPos.y){
+                else if (x>0 && x<ptrGameMechs->getBoardSizeX() && x==playerPos.x && y==playerPos.y){
                     MacUILib_printf("%c",playerPos.symbol);
                     hasprinted=1;
                 }

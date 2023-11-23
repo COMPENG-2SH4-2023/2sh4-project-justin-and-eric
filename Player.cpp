@@ -12,7 +12,8 @@ Player::Player(GameMechs* thisGMRef)
     objPos currObj;
     currObj.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'*');
     playerPos.insertHead(currObj);
-    
+    currObj.setObjPos(mainGameMechsRef->getBoardSizeX()/2-1,mainGameMechsRef->getBoardSizeY()/2,'*');
+    playerPos.insertTail(currObj);
 
 }
 
@@ -84,46 +85,34 @@ void Player::movePlayer()
     int bSizeY = mainGameMechsRef->getBoardSizeY();
     
     objPos currObj;
-    getPlayerPos(currObj);
+    playerPos.getHeadElement(currObj);
     // PPA3 Finite State Machine logic
     switch (myDir)
     {    
     case UP:
         currObj.y--;
-        playerPos.insertHead(currObj);
-        playerPos.removeTail();
         break;
 
     case DOWN:
         currObj.y ++;
-        playerPos.insertHead(currObj);
-        playerPos.removeTail();
         break;
 
     case LEFT:
         currObj.x --;
-        playerPos.insertHead(currObj);
-        playerPos.removeTail();
         break;
 
     case RIGHT:
         currObj.x ++;
-        playerPos.insertHead(currObj);
-        playerPos.removeTail();
         break;
 
     case STOP:
         break;
-
     default:
         break;
     }
 
 
     
-    for(int i=0; i < playerPos.getSize(); i++)
-    {
-        playerPos.getElement(currObj, i);
 
     if (currObj.x == bSizeX)
     {
@@ -145,7 +134,8 @@ void Player::movePlayer()
         currObj.y = 1;
     }
 
-    }
+    playerPos.insertHead(currObj);
+    playerPos.removeTail();
 
 
 }
