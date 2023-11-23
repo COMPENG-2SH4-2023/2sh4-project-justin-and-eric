@@ -16,10 +16,7 @@ Player::Player(GameMechs* thisGMRef)
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(currObj);
-    playerPosList->insertHead(currObj);
-    playerPosList->insertHead(currObj);
-    playerPosList->insertHead(currObj);
-    playerPosList->insertHead(currObj);
+
 
 
 }
@@ -91,13 +88,9 @@ void Player::movePlayer()
     int bSizeX = mainGameMechsRef->getBoardSizeX()-1;
     int bSizeY = mainGameMechsRef->getBoardSizeY()-1;
     bool foodCollision = false;
+    bool selfCollision = false;
     objPos currHead;
     
-<<<<<<< HEAD
-=======
-    objPos currHead;
-    
->>>>>>> b4c475d9350065b37f2236c62bc37d2c0b40a354
     playerPosList->getHeadElement(currHead);
 
 
@@ -149,12 +142,33 @@ void Player::movePlayer()
     {
         currHead.y = 1;
     }
-    for(int i=0;i<mainGameMechsRef->getNumFood();i++){
+
+
+
+    for(int i=0;i< playerPosList->getSize();i++){
+    {
+        objPos tempPos;
+        playerPosList->getElement(tempPos, i);
+        
+        if(currHead.x == tempPos.x && currHead.y == tempPos.y)
+            selfCollision= true;
+        
+    }
+    if(selfCollision){
+        mainGameMechsRef->getloseFlagStatus();
+    }
+
+
+
+    for(int i=0;i< mainGameMechsRef->getNumFood();i++)
+    {
+    
         objPos currFood;
         mainGameMechsRef->getFoodPos(currFood,i);
         if(currHead.x == currFood.x && currHead.y == currFood.y)
             foodCollision= true;
     }
+
     playerPosList->insertHead(currHead);
     if(!foodCollision){
         playerPosList->removeTail();
@@ -162,10 +176,13 @@ void Player::movePlayer()
     else{
         mainGameMechsRef->generateFood(currHead);
     }
-    }
-
-
-
-
 }
+}
+
+
+
+
+
+
+
 
