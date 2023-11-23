@@ -17,7 +17,6 @@ void CleanUp(void);
 
 GameMechs *ptrGameMechs;
 Player *ptrPlayer;
-
 int main(void)
 {
 
@@ -42,7 +41,7 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-
+    objPos playerPos;
     ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13
     ptrPlayer = new Player(ptrGameMechs);
     ptrGameMechs->setNumFood(5);
@@ -54,11 +53,11 @@ void GetInput(void)
     ptrGameMechs->clearInput();
     if(MacUILib_hasChar())
         ptrGameMechs->setInput(MacUILib_getChar());
-
 }
 
 void RunLogic(void)
 {
+    objPos playerPos;
     if(ptrGameMechs->getInput()==' '){
         ptrGameMechs->setExitTrue();
     }
@@ -69,7 +68,8 @@ void RunLogic(void)
     {
         ptrGameMechs->generateFood(playerPos);
     }
-    
+    ptrPlayer->movePlayer();
+    ptrPlayer->updatePlayerDir();
 }
 
 void DrawScreen(void)
