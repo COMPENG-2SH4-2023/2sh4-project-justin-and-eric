@@ -9,7 +9,11 @@ Player::Player(GameMechs* thisGMRef)
 
 
     // more actions to be included
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'*');
+    objPos currObj;
+    currObj.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'*');
+    playerPos.insertHead(currObj);
+    
+
 }
 
 
@@ -22,7 +26,9 @@ Player::~Player()
 void Player::getPlayerPos(objPos &returnPos)
 {
     // return the reference to the playerPos arrray list
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
+    objPos currObj;
+    playerPos.getHeadElement(currObj);
+    returnPos.setObjPos(currObj.x, currObj.y, currObj.symbol);
 }
 
 void Player::updatePlayerDir()
@@ -76,23 +82,33 @@ void Player::movePlayer()
     
     int bSizeX = mainGameMechsRef->getBoardSizeX();
     int bSizeY = mainGameMechsRef->getBoardSizeY();
+    
+    objPos currObj;
     // PPA3 Finite State Machine logic
     switch (myDir)
     {    
     case UP:
-        playerPos.y --;
+        currObj.y--;
+        playerPos.insertHead(currObj);
+        playerPos.removeTail();
         break;
 
     case DOWN:
-        playerPos.y ++;
+        currObj.y ++;
+        playerPos.insertHead(currObj);
+        playerPos.removeTail();
         break;
 
     case LEFT:
-        playerPos.x --;
+        currObj.x --;
+        playerPos.insertHead(currObj);
+        playerPos.removeTail();
         break;
 
     case RIGHT:
-        playerPos.x ++;
+        currObj.x ++;
+        playerPos.insertHead(currObj);
+        playerPos.removeTail();
         break;
 
     case STOP:
@@ -103,24 +119,33 @@ void Player::movePlayer()
     }
 
 
-    if (playerPos.x == bSizeX)
+    
+    for(int i=0; i < playerPos.getSize(); i++)
     {
-        playerPos.x = 1;
+        playerPos.getElement(currObj, i);
+
+    if (currObj.x == bSizeX)
+    {
+        currObj.x = 1;
     }
 
-    if (playerPos.x == 0)
+    if (currObj.x == 0)
     {
-        playerPos.x = bSizeX - 1;
+        currObj.x = bSizeX - 1;
     }
     
-    if (playerPos.y == 0)
+    if (currObj.y == 0)
     {
-        playerPos.y = bSizeY - 1;
+        currObj.y = bSizeY - 1;
     }
 
-    if (playerPos.y == bSizeY)
+    if (currObj.y == bSizeY)
     {
-        playerPos.y = 1;
+        currObj.y = 1;
     }
+
+    }
+
+
 }
 
