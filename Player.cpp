@@ -163,6 +163,7 @@ void Player::movePlayer()
     }
     else{
         mainGameMechsRef->generateFood(playerPosList);
+        mainGameMechsRef->incrementScore();
     }
     for(int i=1;i<playerPosList->getSize();i++){
         objPos BodyObj;

@@ -135,7 +135,7 @@ void DrawScreen(void)
             }
         }
    }
-   
+   MacUILib_printf("\nScore: %d",ptrGameMechs->getScore());
    
     if(ptrGameMechs->getloseFlagStatus())
     {
