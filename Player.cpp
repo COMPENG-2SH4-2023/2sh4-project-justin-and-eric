@@ -93,11 +93,6 @@ void Player::movePlayer()
     bool foodCollision = false;
     objPos currHead;
     
-<<<<<<< HEAD
-=======
-    objPos currHead;
-    
->>>>>>> b4c475d9350065b37f2236c62bc37d2c0b40a354
     playerPosList->getHeadElement(currHead);
 
 
@@ -160,12 +155,9 @@ void Player::movePlayer()
         playerPosList->removeTail();
     }
     else{
-        mainGameMechsRef->generateFood(currHead);
+        mainGameMechsRef->generateFood(playerPosList);
     }
-    }
-
-
-
-
 }
+
+    
 
