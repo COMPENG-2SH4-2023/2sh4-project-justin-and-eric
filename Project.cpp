@@ -70,7 +70,7 @@ void RunLogic(void)
     {
         ptrGameMechs->generateFood(playerPos);
     }
-    // ptrGameMechs->clearInput();
+    
 }
 
 void DrawScreen(void)
@@ -93,7 +93,7 @@ void DrawScreen(void)
                     hasprinted=1;
                 }
                 else if (x==playerPos.x && y==playerPos.y){
-                    MacUILib_printf("$");
+                    MacUILib_printf("%c",playerPos.symbol);
                     hasprinted=1;
                 }
                 for(int z=0;z<ptrGameMechs->getNumFood();z++){
