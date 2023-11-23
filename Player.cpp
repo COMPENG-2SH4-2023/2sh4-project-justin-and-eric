@@ -172,6 +172,10 @@ void Player::movePlayer()
             mainGameMechsRef->setloseFlag();
 
     }
+    if(mainGameMechsRef->getScore() == ((mainGameMechsRef->getBoardSizeX()-2) * (mainGameMechsRef->getBoardSizeY()-2)-1)){
+        mainGameMechsRef->setWinStatusTrue();
+        mainGameMechsRef->setExitTrue();
+    }
 }
 
 

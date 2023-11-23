@@ -27,6 +27,7 @@ class GameMechs
 
         int score;
         bool loseFlag;
+        bool winFlag;
 
         objPos foodpos;
         objPosArrayList foodlist;
@@ -44,7 +45,9 @@ class GameMechs
         void incrementScore();
         bool getloseFlagStatus();
         void setloseFlag();
-
+        bool getWinStatus();
+        void setWinStatusTrue();
+        
         int getBoardSizeX();
         int getBoardSizeY();
         int getScore();

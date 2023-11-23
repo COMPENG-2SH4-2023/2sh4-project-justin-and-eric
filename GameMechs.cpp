@@ -7,6 +7,7 @@ GameMechs::GameMechs()
     numFood=3;
     exitFlag = false;
     loseFlag = false;
+    winFlag = false;
     boardSizeX = 30;
     boardSizeY = 15;
 }
@@ -18,6 +19,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     numFood=3;
     exitFlag = false;
     loseFlag = false;
+    winFlag = false;
     boardSizeX = boardX;
     boardSizeY = boardY;
 }
@@ -68,7 +70,7 @@ int GameMechs::getScore()
 }
 void GameMechs::incrementScore()
 {
-    score++;
+    score+=24;
 }
 bool GameMechs::getloseFlagStatus()
 {
@@ -135,4 +137,14 @@ void GameMechs::getFoodPos(objPos &returnPos, int index)
 int GameMechs::getNumFood()
 {
     return foodlist.getSize();
+}
+
+bool GameMechs::getWinStatus()
+{
+    return winFlag;
+}
+
+void GameMechs::setWinStatusTrue()
+{
+    winFlag = true;
 }

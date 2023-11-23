@@ -136,13 +136,24 @@ void DrawScreen(void)
         }
    }
    MacUILib_printf("\nScore: %d",ptrGameMechs->getScore());
-   
-    if(ptrGameMechs->getloseFlagStatus())
-    {
+   if(ptrGameMechs->getExitFlagStatus()){
         MacUILib_clearScreen();
-        MacUILib_printf("\n you lose LLLL");
-        MacUILib_Delay(5*DELAY_CONST);
-    }
+        if(ptrGameMechs->getWinStatus())
+        {
+            MacUILib_printf("\n you Win WWWW");
+        }
+        else if(ptrGameMechs->getloseFlagStatus())
+        {
+            MacUILib_printf("\n you lose LLLL");
+        }
+        else
+        {
+            MacUILib_printf("\n you Quit ):):):):");
+        }
+        MacUILib_printf("\n Bye [(>: )");
+        MacUILib_Delay(9.99*DELAY_CONST);
+        //This is one second for some reason (if you put 10 it goes to 1 idk)
+   }
     // MacUILib_printf("\nwtf,%d",ptrGameMechs->getNumFood());
     // for(int z=0;z<ptrGameMechs->getNumFood();z++){
     // ptrGameMechs->getFoodPos(foodpos,z);
