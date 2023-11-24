@@ -70,7 +70,7 @@ int GameMechs::getScore()
 }
 void GameMechs::incrementScore()
 {
-    score+=24;
+    score+=1;
 }
 bool GameMechs::getloseFlagStatus()
 {

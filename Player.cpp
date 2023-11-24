@@ -146,11 +146,8 @@ void Player::movePlayer()
 
 
 
-
-
-        for(int i=0;i< mainGameMechsRef->getNumFood();i++)
+    for(int i=0;i< mainGameMechsRef->getNumFood();i++)
     {
-    
         objPos currFood;
         mainGameMechsRef->getFoodPos(currFood,i);
         if(currHead.x == currFood.x && currHead.y == currFood.y)
@@ -165,13 +162,17 @@ void Player::movePlayer()
         mainGameMechsRef->generateFood(playerPosList);
         mainGameMechsRef->incrementScore();
     }
-    for(int i=1;i<playerPosList->getSize();i++){
+
+
+    for(int i=1;i<playerPosList->getSize();i++)
+    {
         objPos BodyObj;
         playerPosList->getElement(BodyObj, i);
         if(currHead.x == BodyObj.x && currHead.y == BodyObj.y)    
             mainGameMechsRef->setloseFlag();
 
     }
+    
     if(mainGameMechsRef->getScore() == ((mainGameMechsRef->getBoardSizeX()-2) * (mainGameMechsRef->getBoardSizeY()-2)-1)){
         mainGameMechsRef->setWinStatusTrue();
         mainGameMechsRef->setExitTrue();
