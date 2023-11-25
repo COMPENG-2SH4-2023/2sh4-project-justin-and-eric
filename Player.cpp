@@ -16,7 +16,7 @@ Player::Player(GameMechs* thisGMRef)
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(currObj);
-
+    foodCountdown = 0;
 
 
 }
@@ -150,15 +150,28 @@ void Player::movePlayer()
     {
         objPos currFood;
         mainGameMechsRef->getFoodPos(currFood,i);
-        if(currHead.x == currFood.x && currHead.y == currFood.y)
+        if(currHead.x == currFood.x && currHead.y == currFood.y){
             foodCollision= true;
+            if(foodCountdown){
+                foodCountdown--;
+            }
+            //reason for no else statement is for these two to happen simultaneously at collision
+            if(!foodCountdown){
+                mainGameMechsRef->setNumFood(5);
+            }
+            if(currFood.symbol == '&'){
+                mainGameMechsRef->setNumFood(25);
+                foodCountdown = 3;
+            }
+        }
     }
-
+    
     playerPosList->insertHead(currHead);
     if(!foodCollision){
         playerPosList->removeTail();
     }
     else{
+        
         mainGameMechsRef->generateFood(playerPosList);
         mainGameMechsRef->incrementScore();
     }

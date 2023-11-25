@@ -85,10 +85,6 @@ void GameMechs::setloseFlag()
 
 void GameMechs::setNumFood(int num)
 {
-    if(numFood!=num){
-        for(int i=0;i<numFood;i++)
-            foodlist.removeHead();
-    }
     numFood = num;
 }
 void GameMechs::generateFood(objPosArrayList* Blockoff)
@@ -112,11 +108,7 @@ void GameMechs::generateFood(objPosArrayList* Blockoff)
                 conflict = false;
                 xsymbol = rand()%(boardSizeX-2)+1;
                 ysymbol = rand()%(boardSizeY-2)+1;
-                if(i<numFood-1)
-                    foodpos.setObjPos(xsymbol,ysymbol,'%');
-                else{
-                    foodpos.setObjPos(xsymbol,ysymbol,'&');
-                }
+                foodpos.setObjPos(xsymbol,ysymbol,'%');
                 for(int j=0;j<Blockoff->getSize();j++){
                     Blockoff->getElement(currPlayerObj,j);
                     if(currPlayerObj.isPosEqual(&foodpos) || (symbol_on_x[xsymbol]==1 && symbol_on_y[ysymbol]==1))
