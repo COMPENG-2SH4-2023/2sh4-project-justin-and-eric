@@ -14,7 +14,7 @@ void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
-
+//global pointers for game mechanism and player class
 GameMechs *ptrGameMechs;
 Player *ptrPlayer;
 int main(void)
@@ -28,7 +28,6 @@ int main(void)
         RunLogic();
         DrawScreen();
         LoopDelay();
-        //ptrGameMechs->setExitTrue();
     }
 
     CleanUp();
@@ -42,10 +41,10 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     
-    
+    //default created is 26 by 13
     ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13
     ptrPlayer = new Player(ptrGameMechs);
-
+    //the number of food is then set to 5
     ptrGameMechs->setNumFood(5);
     ptrGameMechs->generateFood(ptrPlayer->getPlayerPos());
 
@@ -53,6 +52,7 @@ void Initialize(void)
 
 void GetInput(void)
 {   
+    //needs to clear the current input if you dont press anything
     ptrGameMechs->clearInput();
     if(MacUILib_hasChar())
         ptrGameMechs->setInput(MacUILib_getChar());
@@ -64,13 +64,6 @@ void RunLogic(void)
     if(ptrGameMechs->getInput()==' '){
         ptrGameMechs->setExitTrue();
     }
-    // if(ptrGameMechs->getInput()=='='){
-    //     ptrGameMechs->incrementScore();
-    // }
-    // if(ptrGameMechs->getInput()=='n')
-    // {
-    //     ptrGameMechs->generateFood(playerPos);
-    // }
     ptrPlayer->movePlayer();
     ptrPlayer->updatePlayerDir();
 }
@@ -83,10 +76,11 @@ void DrawScreen(void)
 
     int hasprinted=1;
 
-
+    //playerbody contains the player list
     objPosArrayList* playerBody = ptrPlayer->getPlayerPos();
+    //tempbody for the current portion of the snake
     objPos tempBody;
-
+    //foodpos for the current food 
     objPos foodpos;
  
 
@@ -96,6 +90,7 @@ void DrawScreen(void)
         hasprinted=0;
         MacUILib_printf("\n");
         for(int j=0;j<ptrGameMechs->getBoardSizeX();j++){
+            //has printed is for the spaces or empty portions of the screen. Without it, it would print spaces where other symbols were already printed
             hasprinted=0;
 
             for(int q = 0; q < playerBody->getSize(); q++)
@@ -103,12 +98,14 @@ void DrawScreen(void)
                 playerBody->getElement(tempBody, q);
                 if(tempBody.x == j && tempBody.y == i )
                 {
+                    //This break is because there iwll not be another player object in the same position, so theres not point of 
+                    //iterating through the rest of the list
                     MacUILib_printf("%c", tempBody.symbol);
                     hasprinted = 1; 
                     break;
                 }
             }
-
+            //speeds up the loop as there will not be other symbols in the position of the player symbol anyways
             if(hasprinted) continue;
 
 
@@ -121,7 +118,8 @@ void DrawScreen(void)
                     MacUILib_printf("#");
                     hasprinted=1;
                 }
-
+                //This is for printing each food symbol in the list 
+                //For loop for iterating through each object in the list
                 for(int z=0;z<ptrGameMechs->getNumFood();z++){
                     ptrGameMechs->getFoodPos(foodpos,z);
                     if(j==foodpos.x && i==foodpos.y){
@@ -129,6 +127,7 @@ void DrawScreen(void)
                         hasprinted = 1;
                     }
                 }
+                //if the important symbols have not printed, then it will print a space
                 if(!hasprinted){
                     MacUILib_printf(" ");
                 }
@@ -136,6 +135,7 @@ void DrawScreen(void)
         }
    }
    MacUILib_printf("\nScore: %d",ptrGameMechs->getScore());
+   //craetes different prints depending on what the exit status is (lose, win, or just pressing space)
    if(ptrGameMechs->getExitFlagStatus()){
         MacUILib_clearScreen();
         if(ptrGameMechs->getWinStatus())
@@ -154,12 +154,6 @@ void DrawScreen(void)
         MacUILib_Delay(9.99*DELAY_CONST);
         //This is one second for some reason (if you put 10 it goes to 1 idk)
    }
-    // MacUILib_printf("\nwtf,%d",ptrGameMechs->getNumFood());
-    // for(int z=0;z<ptrGameMechs->getNumFood();z++){
-    // ptrGameMechs->getFoodPos(foodpos,z);
-    // MacUILib_printf("\nwtf%d,%d, ",foodpos.x,foodpos.y);
-    // }
-    // MacUILib_printf("\n%d, %d",ptrGameMechs->getBoardSizeX(),ptrGameMechs->getBoardSizeY());
 }
 
 void LoopDelay(void)
@@ -170,7 +164,9 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
+    //deletes the pointers to the class
     delete ptrGameMechs;
+    delete ptrPlayer;
     MacUILib_clearScreen();    
     MacUILib_uninit();
 }
