@@ -29,7 +29,6 @@ class GameMechs
         bool loseFlag;
         bool winFlag;
 
-        objPos foodpos;
         objPosArrayList foodlist;
         int numFood;
     public:

@@ -42,7 +42,7 @@ void Initialize(void)
 
     
     //default created is 26 by 13
-    ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13
+    ptrGameMechs = new GameMechs(26,13);//width = 26, height = 13 minimum is 3 by 3 (insta win) also (cannot do 2 by 3 or 1 by 5 or 6 by 1/2 etc...)
     ptrPlayer = new Player(ptrGameMechs);
     //the number of food is then set to 5
     ptrGameMechs->setNumFood(5);
@@ -64,8 +64,8 @@ void RunLogic(void)
     if(ptrGameMechs->getInput()==' '){
         ptrGameMechs->setExitTrue();
     }
-    ptrPlayer->movePlayer();
     ptrPlayer->updatePlayerDir();
+    ptrPlayer->movePlayer();
 }
 
 void DrawScreen(void)
@@ -135,22 +135,22 @@ void DrawScreen(void)
         }
    }
    MacUILib_printf("\nScore: %d",ptrGameMechs->getScore());
-   //craetes different prints depending on what the exit status is (lose, win, or just pressing space)
+   //creates different prints depending on what the exit status is (lose, win, or just pressing space)
    if(ptrGameMechs->getExitFlagStatus()){
         MacUILib_clearScreen();
         if(ptrGameMechs->getWinStatus())
         {
-            MacUILib_printf("\n you Win WWWW");
+            MacUILib_printf("\nYou Win WWWW");
         }
         else if(ptrGameMechs->getloseFlagStatus())
         {
-            MacUILib_printf("\n you lose LLLL");
+            MacUILib_printf("\nYou lose LLLL");
         }
         else
         {
-            MacUILib_printf("\n you Quit ):):):):");
+            MacUILib_printf("\nyou Quit ):):):):");
         }
-        MacUILib_printf("\n Bye [(>: )");
+        MacUILib_printf("\nYou got a score of: %d\nBye [(>: )",ptrGameMechs->getScore());
         MacUILib_Delay(9.99*DELAY_CONST);
         //This is one second for some reason (if you put 10 it goes to 1 idk)
    }

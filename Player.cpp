@@ -158,6 +158,7 @@ void Player::movePlayer()
         mainGameMechsRef->getFoodPos(currFood,i);
         if(currHead.x == currFood.x && currHead.y == currFood.y){
             foodCollision= true;  //Set collision flag to true if collision occurs
+            mainGameMechsRef->incrementScore();
             if(foodCountdown){ 
                 foodCountdown--;  //Decrement foodCountdown if it has a non-zero value
             }
@@ -175,6 +176,13 @@ void Player::movePlayer()
         }
     }
     
+    //Win End-Game logic
+    // The right side is basically how many empty spaces there are (0 empty spaces mean you won)
+    if(mainGameMechsRef->getScore() == ((mainGameMechsRef->getBoardSizeX()-2) * (mainGameMechsRef->getBoardSizeY()-2)-1)){
+        mainGameMechsRef->setWinStatusTrue();
+        mainGameMechsRef->setExitTrue();
+    }
+
     playerPosList->insertHead(currHead); //insert head to next position
     if(!foodCollision){ 
         //If no food was eaten, remove the tail as well to complete the movement
@@ -182,8 +190,9 @@ void Player::movePlayer()
     }
     else{
         //Otherwise (food eaten), genereate new food and increment the score
-        mainGameMechsRef->generateFood(playerPosList);
-        mainGameMechsRef->incrementScore();
+        //Also no need to regenerate food when you have won
+        if(!mainGameMechsRef->getWinStatus())
+            mainGameMechsRef->generateFood(playerPosList);
     }
 
 
@@ -200,11 +209,6 @@ void Player::movePlayer()
     }
     
 
-    //Win End-Game logic
-    if(mainGameMechsRef->getScore() == ((mainGameMechsRef->getBoardSizeX()-2) * (mainGameMechsRef->getBoardSizeY()-2)-1)){
-        mainGameMechsRef->setWinStatusTrue();
-        mainGameMechsRef->setExitTrue();
-    }
 }
 
 
